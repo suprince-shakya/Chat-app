@@ -8,8 +8,6 @@ Highlights:
 - 🚀 Online user status
 - 👌 Global state management with Zustand
 - 🐞 Error handling both on the server and on the client
-- ⭐ At the end Deployment like a pro for FREE!
-- ⏳ And much more!
 
 ### Setup .env file
 
@@ -24,6 +22,19 @@ CLOUDINARY_API_SECRET=...
 
 NODE_ENV=development
 ```
+
+### Environment variable description
+| Name | Description |
+| ------ | ------ |
+| NODE_ENV | Application environment(development,production) |
+| HOST | Url of this application |
+| PORT | Application running port |
+| JWT_SECRET | Secret for Json web token|
+| MONGODB_URI | Url of mongodb |
+| CLOUDINARY_CLOUD_NAME | Cloud name of cloudinary service |
+| CLOUDINARY_API_KEY | API key of cloudinary service |
+| CLOUDINARY_API_SECRET | API secret of cloudinary service |
+
 
 ### Build the app
 
