@@ -21,7 +21,15 @@ const Navbar = () => {
                 <MessageSquare className="w-5 h-5 text-primary" />
               </div>
               <h1 className="text-lg font-bold">Chit Chat</h1>
-              {authUser && <h1>Welcome, {authUser.fullName} </h1>}
+              {authUser && (
+                <h1>
+                  Welcome,{" "}
+                  <span className="text-primary">
+                    {authUser.fullName.split(" ")[0].charAt(0).toUpperCase() +
+                      String(authUser.fullName.split(" ")[0]).slice(1)}
+                  </span>
+                </h1>
+              )}
             </Link>
           </div>
 
