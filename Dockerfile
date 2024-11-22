@@ -5,6 +5,7 @@ COPY . .
 
 # Delete the existing 'dist' folder if it exists
 RUN rm -rf frontend/dist
+RUN rm -rf backend/dist
 
 RUN npm run build
 EXPOSE 5001

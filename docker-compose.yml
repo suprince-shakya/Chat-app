@@ -2,8 +2,6 @@ version: '3.7'
 services:
   backend:
     image: ghcr.io/suprince-shakya/chit-chat-ghcr:latest
-    env_file:
-      - .env
     ports:
       - 5001:5001
     restart: on-failure

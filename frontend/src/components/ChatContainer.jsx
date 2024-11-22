@@ -1,11 +1,12 @@
 import { useChatStore } from "../store/useChatStore";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import ChatHeader from "./ChatHeader";
 import MessageInput from "./MessageInput";
 import MessageSkeleton from "./skeletons/MessageSkeleton";
 import { useAuthStore } from "../store/useAuthStore";
 import { formatMessageTime } from "../lib/utils";
+import EmojiPicker from "emoji-picker-react";
 
 const ChatContainer = () => {
   const {
@@ -17,8 +18,18 @@ const ChatContainer = () => {
     unsubscribeFromMessages,
   } = useChatStore();
   const { authUser } = useAuthStore();
+  const [toggleEmoji, setToggleEmoji] = useState(false);
+  const [selectedEmoji, setSelectedEmoji] = useState("");
   const messageEndRef = useRef(null);
 
+  function toggleEmojiFunc(data) {
+    console.log("data", data);
+    if (data == false) {
+      setToggleEmoji(data);
+      return;
+    }
+    setToggleEmoji(!toggleEmoji);
+  }
   useEffect(() => {
     getMessages(selectedUser._id);
 
@@ -45,10 +56,12 @@ const ChatContainer = () => {
   }
 
   return (
-    <div className="flex-1 flex flex-col overflow-auto">
+    <div
+      className="flex-1 flex flex-col overflow-auto"
+    >
       <ChatHeader />
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4" onClick={() => toggleEmojiFunc(false)}>
         {messages.map((message) => (
           <div
             key={message._id}
@@ -94,8 +107,13 @@ const ChatContainer = () => {
           </div>
         ))}
       </div>
-
-      <MessageInput />
+      <div className="absolute bottom-20 right-28">
+        <EmojiPicker
+          onEmojiClick={({ emoji }) => setSelectedEmoji(emoji)}
+          open={toggleEmoji}
+        />
+      </div>
+      <MessageInput toggleEmoji={toggleEmojiFunc} emojiInput={selectedEmoji} />
     </div>
   );
 };

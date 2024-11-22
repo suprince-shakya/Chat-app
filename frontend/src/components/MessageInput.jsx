@@ -1,13 +1,28 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useChatStore } from "../store/useChatStore";
-import { Image, Send, X } from "lucide-react";
+import { Image, Send, X, Smile } from "lucide-react";
 import toast from "react-hot-toast";
 
-const MessageInput = () => {
+const MessageInput = ({ toggleEmoji, emojiInput }) => {
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
+
   const fileInputRef = useRef(null);
   const { sendMessage } = useChatStore();
+
+  useEffect(() => {
+    handleEmojiInput(emojiInput);
+  }, [emojiInput]);
+
+  const handleEmojiInput = (emoji) => {
+    if (emoji) {
+      if (text == "") {
+        setText(emoji);
+      } else {
+        setText(text + emoji);
+      }
+    }
+  };
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -30,6 +45,7 @@ const MessageInput = () => {
 
   const handleSendMessage = async (e) => {
     e.preventDefault();
+    toggleEmoji(false);
     if (!text.trim() && !imagePreview) return;
 
     try {
@@ -77,6 +93,7 @@ const MessageInput = () => {
             placeholder="Type a message..."
             value={text}
             onChange={(e) => setText(e.target.value)}
+            onClick={() => toggleEmoji(false)}
           />
           <input
             type="file"
@@ -84,11 +101,19 @@ const MessageInput = () => {
             className="hidden"
             ref={fileInputRef}
             onChange={handleImageChange}
+            onClick={() => toggleEmoji(false)}
           />
 
           <button
             type="button"
-            className={`hidden sm:flex btn btn-circle
+            className={` btn btn-sm btn-circle sm:flex sm:btn-md`}
+            onClick={() => toggleEmoji()}
+          >
+            <Smile size={20} />
+          </button>
+          <button
+            type="button"
+            className={`btn btn-sm btn-circle sm:flex sm:btn-md
                      ${imagePreview ? "text-emerald-500" : "text-zinc-400"}`}
             onClick={() => fileInputRef.current?.click()}
           >
